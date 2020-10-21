@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8" />
+		<title>Number Baseball</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" type="text/css" href="./assets/css/baseball.css">   
+	</head>
+
+	<body>
+	    <div class="game-board" >
+
+	    	<div class="time-panel">
+	    		<div>Time&nbsp;&nbsp;&nbsp;</div>
+	    		<div class="timer">00:00</div>
+	    		<img id="btnReset" class="reset-button" src="./assets/images/refresh.svg" alt="reset"/>
+	    	</div>
+
+			<div class="text-board-container">
+				<canvas class="text-board"  />
+			</div>
+
+			<div class="user-input-panel">
+				<input id="txtUserInput1" class="input-num" maxlength="1" />
+				<input id="txtUserInput2" class="input-num" maxlength="1" />
+				<input id="txtUserInput3" class="input-num" maxlength="1" />
+				<input id="btnInput" class="confirm" type="button" value="INPUT" disabled />				
+			</div>
+
+
+			<div class="innings-container">
+							
+			</div>			
+	    </div>
+	    <script type="text/javascript" src="assets/js/ParticleText.js"></script>
+	    <script type="text/javascript" src="assets/js/baseball.js"></script>
+	</body>
+
+</html>
+

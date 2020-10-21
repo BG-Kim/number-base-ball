@@ -1,0 +1,107 @@
+body {
+	padding : 0px;
+	margin : 0px;
+}
+
+
+
+
+.game-board {	
+	background-color: rgb(23, 41, 58);
+	width: calc(100vw - 32px);
+	height: calc(100vh - 56px );	
+	display: flex;
+	flex-direction: column;	
+	align-items: center;
+	padding : 16px;
+}
+
+
+/* nav - time panel */
+.game-board .time-panel {
+	position: relative;
+	display: flex;
+	flex-direction: row;
+	color : white;	
+	min-width: 300px;
+	justify-content: center;
+}
+
+.game-board .time-panel .reset-button {
+	position: absolute;
+    right: 16px;
+    top: 0px;
+    display: none;
+}
+.game-board .time-panel .reset-button.visible {	
+    display: block;
+}
+
+
+
+
+
+/* user input */
+.game-board .user-input-panel {
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+}
+.game-board .user-input-panel .input-num {
+	width : 48px;
+	height : 48px;
+	margin-right: 8px;
+	text-align: center;
+	font-size: 32px;
+	border : none;
+	border-radius: 8px;
+}
+.game-board .user-input-panel .confirm {
+	border : none;
+	border-radius: 8px;
+	margin-left: 16px;
+}
+
+
+
+
+
+/* innings container */ 
+.game-board .innings-container {
+	margin: 16px;
+	font-size: 20px;
+}
+
+.game-board .inning-panel { 
+	display: flex;
+	flex-direction: row;
+	color : white;	
+}
+
+.game-board .inning-panel .lblInning {
+	margin-right : 4px;
+}
+
+.game-board .inning-panel .lblInnings {
+	margin-right : 16px;
+}
+
+.game-board .inning-panel .inputValue {
+	margin-right : 16px;
+}
+
+
+
+
+
+.text-board-container {
+	text-align : center;
+}
+
+.text-board-container .text-board {	
+	width : 300px;
+	height : 150px;
+	margin : auto 0px;
+}
+
+

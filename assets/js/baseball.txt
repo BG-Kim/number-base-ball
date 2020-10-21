@@ -1,0 +1,138 @@
+//* 작성하신 코드의 약점은 사용자가 9번 이상을 입력할 수 있다는 것입니다.
+//* 사람과의 플레이가 아니고 컴퓨터와 하는 것이기에 컴퓨터가 숫자를 정하고 9회의 제한을 둔 것입니다.
+//* 또한 입력을 한꺼번에 하고 한번에 출력이 가능하는 구조가 약점인것 같습니다.
+//* 일번적으로는 숫자3개 확인하고 다음 숫자 결정하고 이런 흐름이기 때문입니다. 
+/*
+function playball() {
+	const answerNumbers = generateAnswerNumbers();
+	const TRY_LIMIT = 9;	
+	let tryCount = 0;	
+	let userAnswer = null;
+	let isCorrect = false;
+	while( tryCount < TRY_LIMIT  ) {
+		userAnswer = inputUserAnswer();
+		isCorrect = checkAnswer(userAnswer);		
+		displayResult(userAnswer);
+		if( isCorrect === true )
+			break;
+		++tryCount;
+	}
+	displayGameResult(userAnswer, tryCount);
+}
+*/
+
+
+
+
+//* 코드의 안정성을 위해 use strict 을 사용합시다
+"use strict";
+
+//* var 대신에 let을 사용하세요. var의 경우 호이스팅 문제가 일어납니다. 
+
+//* 아래 변수명은 조금 아쉽습니다. 
+//* 번수명 짓는것은 프로그래밍에서 신경쓰이는 부분중에 하나이긴 합니다. 
+//* 저는 이 변수들의 역할을 아래의 정답을 선정하는 부분에 가서야 이했습니다. 
+//* 저도 작명을 못하긴 하지만 변수명을 answerCandidateList, answerNumbers 정도로 했을 것 같습니다. 
+
+//* 아래의 변수는 const로 하셔도 됩니다. 아시겠지만 변수의 주소값이 변하는것은 아니기 때문입니다.
+var numberList = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
+var numbers = new Array();
+//3개 랜덤 숫자 만들기. 중복되면 안됨...
+//while(true)로 한다음에 numbers에 값을 계속 넣고 중복값이 나오면 제거한다음에 다시 뽑아서 넣고
+//그다음에 numbers.length===3이 되면 끝나게 하려했는데 밑의 코드가 더 간결한듯.
+
+//* while(true) 를 이용하신다면 무한루프에 나오지 않도록 신경쓰셔야 합니다. 
+
+//* 지금은 너무 사소한 부분이라 해당 부분에는 신경 쓰시지 않으셔도 좋지만 
+//* 간혹 순환문 코드를 보시다보면 ++i 로 작성된 코드를 보실수 있습니다. 
+//* 이것은 C++ 같은 언어는 전위, 후위 연산자를 만들 경우가 있습니다. 
+//* 이때 후위 연산자는 전위 연산자를 사용해서 만들기에 ++(객체) 가 더 빠른 속도가 됩니다. 
+//* 하지만 너무 차이가 미미한 부분이긴 합니다. 그냥 참고용으로 알아만 두는 정도면 됩니다. 
+
+//* 후보리스트에서 추출한 내역을 제거하고 정답을 채우는 로직은 훌륭한 아이디어입니다. 
+//* 해당 아이디어로 속도 및 중복성을 풀어냈네요.
+for (var i = 0; i < 3; i++) {
+  //* 변수를 순환문 밖에 선언하는 것이 속도에 좀 더 좋긴합니다만, 이것도 아주 사소한 부분이니 그냥 넘어가도 좋습니다.  
+  //* 차이점은 아시겠지만 순환문 밖에 선언하면 해단 변수의 번지수를 다시 사용하고 안에 선언하면 메모리를 다시 할당합니다. 
+  var number = Math.floor(Math.random() * numberList.length);
+  numbers[i] = numberList.splice(number, 1)[0];
+}
+
+
+//* 참고 : 생성 숫자 확인 용도라면 console.log(), console.info() 등을 이용하여 웹 브라우져의 개발자 도구에서 확인 가능합니다.
+console.info("numbers : ", numbers);
+// const gameNumber = document.getElementById("numbers");
+// gameNumber.append(numbers.join(", "));
+
+//* 이제까지의 코드를 함수화 해서 generateAnswerNumbers() 로 만들어두어 호출하면 
+//* 코드의 가독성이 향상됩니다. 
+
+
+//* myNumbers 가 일반 변수인지 html element 객체인지 구분하는 자신의 방식이 있으면 괜찮습니다.
+//* myNumbers 가 다른 일반 변수와 혼동되어 다루지는 않을지 걱정되네요.
+//* 예전 윈도우 프로그램을 하던 때에는 이런 텍스트 박스등의 객체 변수이름을 
+//* lbl, txt, rad, btn 등의 앞에 특정 문자를 덧붙여 구분하는 방식도 있었습니다. 
+//* 아니면 myNumbersLabel 등으로 간단히 이것은 라벨 역할이다. 라고 명시해도 괜찮습니다. 
+//내가 원하는 번호 뽑기
+const myNumbers = document.getElementById("myNumbers");
+var numberArray = new Array(); //내가 고른 숫자 담을 배열 만들었음..
+
+
+function choice(click) {
+  myNumbers.append(click.value);
+  var value = myNumbers.innerHTML;
+  if (value.length % 4 == 3) {
+    myNumbers.innerHTML += "/";
+  }
+  numberArray = myNumbers.innerHTML.split("/");
+
+  //* 제 경우 k 까지 가게 될경우 순환문 변수라도 이름을 붙여주는 편입니다. 
+  //* i,j 만 사용한다고 하더라도 경우에 따라 변수의 이름을 붙여줍니다. 
+  //* 이는 실수를 방지하기 위함입니다.   
+  //* 또한 중첩이 많은 경우 마지막 괄호의 끝에 사직 for문의 주석을 붙여주는 것도 괜찮은 습관일 수 있습니다.     
+  for (var i = 0; i < numberArray.length; i++) {
+    for (var j = 0; j < 3; j++) {
+      for (var k = 0; k < 3; k++) {
+        if (
+          numberArray[i].charAt(j) === numberArray[i].charAt(k) &&
+          numberArray[i].charAt(j) !== "" &&
+          k > j
+        ) {
+          console.log(numberArray[i].charAt(j));
+          myNumbers.innerHTML = value.slice(0, -1);
+          alert("같은 숫자 추가 금지");
+        }
+      } // for (var k = 0; k < 3; k++)
+    } // for (var j = 0; j < 3; j++) 
+  } //  for (var i = 0; i < numberArray.length; i++)
+}
+
+function check() {
+  document.getElementById("result").innerHTML = ""; //초기화
+  var value = myNumbers.innerHTML;
+  var leftOver = value.length % 4;
+  var newValue = value.substring(0, value.length - leftOver);
+  numberArray = newValue.split("/").filter((n) => n); //숫자만 반환해서 공백 없앰. //넘버어레이가 내가 입력한 숫자 받은거임.
+  myNumbers.innerHTML = newValue;
+  console.log(numberArray); //배열에 저장되는 내가 추가한 숫자들. numberArray[0] numberArray[1] 여기마다 저장됨...
+  var origin = numbers.join().replace(/,/g, ""); //원본 숫자 3개
+
+  numberArray.forEach(function (element) {
+    document.getElementById("result").innerHTML +=
+      "게임번호=" + element + "==>";
+    if (element === origin) {
+      document.getElementById("result").append("빙고" + "\n");
+    }
+
+    for (var i = 0; i < 3; i++) {
+      for (var j = 0; j < 3; j++) {
+        if (element.charAt(i) === origin.charAt(j)) {
+          if (i == j) document.getElementById("result").append("S");
+          if (i !== j) document.getElementById("result").append("B");
+        }
+      }
+    }
+
+    document.getElementById("result").innerHTML += "<br>";
+  });
+}
